@@ -1,10 +1,15 @@
 import { Card } from '@/components/Card';
 import { Header } from '@/components/Header';
+import { useTheme } from '@/components/ThemeContext';
 import {  StyleSheet} from 'react-native';
+
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 import { View,Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 
 
 const news = [
@@ -31,36 +36,63 @@ const news = [
   ];
 
 
-export default function app() {
-  return (
-    <View style={styles.container}>
-        <Header title='Artículos Cientificos'></Header>   
-        <ScrollView>
+  export default function app({}) {
+    const { isDarkMode, toggleTheme } = useTheme(); // Accede al estado del tema y la función para alternarlo
+  
+
+    useEffect(() => {
+      Toast.show({
+        type: 'info',
+        text1: 'Tema',
+        text2: `El tema actual es: ${isDarkMode ? 'Oscuro' : 'Claro'}`,
+      });
+    }, [isDarkMode]); 
+
+
+    return (
+      <View style={[styles.container, { backgroundColor: isDarkMode ? '#000' : '#fff' }]}>
+        <Header title="Artículos Científicos" />
        
-       <Text style={styles.text}>
-        Infografias de Ciencia y Tecnologia
-        </Text>
-        
+        <View style={styles.themeSwitcher}>
+            <Text
+              style={[styles.toggleButton, { backgroundColor: isDarkMode ? '#fff' : '#000', color: isDarkMode ? '#000' : '#fff' }]}
+              onPress={toggleTheme}
+            >
+             <MaterialCommunityIcons name="theme-light-dark" size={20} color="white" style={{ marginRight: 12, color: isDarkMode ? '#000' : '#fff'
+             }} />
 
-      <View style={styles.containerCard}>
-        
-        {news.map((news, index) => {
-  return (
-    <Card
-      key={index}
-      title={news.title}
-      imageUrl={news.imageUrl}
-      pageUrl={news.pageUrl}
-    />
-  );
-})}
+              Cambiar Tema
+            </Text>
+          </View>
+        <ScrollView>
 
-        </View>
 
+          <Text style={[styles.text, { color: isDarkMode ? '#fff' : '#4166d5' }]}>
+            Infografías de Ciencia y Tecnología
+          </Text>
+          
+  
+          <View style={styles.containerCard}>
+            {news.map((news, index) => {
+              return (
+                <Card
+                  key={index}
+                  title={news.title}
+                  imageUrl={news.imageUrl}
+                  pageUrl={news.pageUrl}
+                  titleStyle={ {color: isDarkMode ? '#fff' : '#000'} }
+                />
+              );
+            })}
+          </View>
+
+          
+  
+         
         </ScrollView>
-    </View>
-  );
-}
+      </View>
+    );
+  }
 
 const styles = StyleSheet.create({
     container:{
@@ -86,5 +118,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#4166d5',
     marginBottom: 10
-  }
+  },themeSwitcher: {
+    justifyContent: 'center',
+    
+    
+  },
+  toggleButton: {
+    padding: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 });

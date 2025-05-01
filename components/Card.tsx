@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   });
 
 
-export function Card(props: {title: string, imageUrl: string, pageUrl:string}) {
+export function Card(props: {title: string, imageUrl: string, pageUrl:string,titleStyle?:object}) {
    
   return (
     <View style={styles.containerCard}>
@@ -54,7 +54,8 @@ export function Card(props: {title: string, imageUrl: string, pageUrl:string}) {
 
 
         </View>
-        <Text style={styles.title}>{props.title}</Text>
+        <Text style={[styles.title, props.titleStyle]}>{props.title}</Text>
+
         <TouchableOpacity style={styles.btn} onPress={() => Linking.openURL(props.pageUrl)}>
         <Text style={styles.btnText}>Más Información</Text>
 

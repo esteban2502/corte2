@@ -330,8 +330,14 @@ return (
 3. Instala las dependencias:
    ```bash
    npm install
+
    ```
-4. Inicia el servidor de desarrollo:
+4. Instala la librería para las notificaciones:
+   ```bash
+   npm install react-native-toast-message
+   ```
+
+5. Inicia el servidor de desarrollo:
    ```bash
    expo start
    ```
